@@ -1,0 +1,21 @@
+include_rules
+
+: compile_letters.lua |> !texluac |>
+
+ifeq (@(COLLECT_MODULES),y)
+	: setup.lua |> !texluac |>
+	
+	: <lua_modules> |> echo %<lua_modules> >%o |> lua_module_list.txt
+endif
+
+: foreach papers.json |> json2lua %f %o |> %B.lua {json2lua}
+: foreach {json2lua} |> !texluac |>
+
+: |> echo $(TEXLUA_BYTECODE_EXTENSION) >%o |> texlua_bytecode_extension.txt
+ifeq (@(COLLECT_MODULES),y)
+	: <lua_modules> lua_module_list.txt texlua_bytecode_extension.txt setup.$(TEXLUA_BYTECODE_EXTENSION) papers.$(TEXLUA_BYTECODE_EXTENSION) page_layout.$(TEXLUA_BYTECODE_EXTENSION) fonts.txt |> $(LUATEX) --ini --interaction=nonstopmode $(LUATEX_FLAGS) --jobname=base -- base.ini.tex |> base.log base.fmt
+else
+	: texlua_bytecode_extension.txt papers.$(TEXLUA_BYTECODE_EXTENSION) |> $(LUATEX) --ini --interaction=nonstopmode $(LUATEX_FLAGS) --jobname=base -- base.ini.tex |> base.log base.fmt
+endif
+
+#: |> @(LUAJITTEX) --ini --interaction=nonstopmode --halt-on-error --jobname=correspondence -- "&@(LUAJITTEX_LATEX_FORMAT)" correspondence.ini.tex |> correspondence.log correspondence.fmt

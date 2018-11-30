@@ -1,0 +1,9 @@
+\catcode`\{=1
+\catcode`\}=2
+\directlua{dofile("correspondence.ini.lua")}
+\everyjob={\directlua{lua.getbytecode(1)()}}
+\output={\errmessage{Output routine invoked}}
+\dump
+\input{preamble.tex}
+\everyjob=\expandafter{\the\everyjob\input{preamble.tex}\input{parameters.tex}\outputcorrespondence}
+\dump

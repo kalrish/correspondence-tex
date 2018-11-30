@@ -1,0 +1,10 @@
+include engines.tup/@(LUATEX_ENGINE).tup
+
+!downsizepng = |> @(CONVERT) %f -resize @(LETTER_PNG_SCALE) %o |>
+!png2pdf = |> @(LUATEX_IMG2PDF) --pdf-compression-level=@(LUATEX_IMG2PDF_COMPRESSION_LEVEL) -- %f |> %B.log %B.pdf
+#!png2pdf = |> @(CONVERT) %f %o |> %B.pdf
+!generatepdf = | ../correspondence.fmt parameters.texluajitbc participants.texluajitbc <stuff> |> @(LUAJITTEX) --interaction=nonstopmode --halt-on-error --lua=luaplms.texluajitbc --fmt=../correspondence.fmt --jobname=%d --output-format=pdf -- "\end" |> %d.log %d.aux %d.pdf <pdf>
+ifeq (@(USE_FAST_WEB_VIEW),y)
+	FAST_WEB_VIEW_FLAG=-dFastWebView
+endif
+!optimizepdf = | <pdf> |> @(GS) -q -dNOPAUSE -dBATCH $(FAST_WEB_VIEW_FLAG) -sDEVICE=pdfwrite -sOutputFile=%o -f %d.pdf |> %d_final.pdf

@@ -1,0 +1,1 @@
+return {["from"]={["who"]="david",["where"]="niendorfhaus"},["to"]={["who"]="adrian",["where"]="calletablas"},["sent"]={["day"]=10,["month"]=7,["year"]=2016},["received"]={["day"]=14,["month"]=7,["year"]=2016},["pages"]=3,["image_format"]="jpeg"}

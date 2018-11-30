@@ -1,0 +1,5 @@
+include_rules
+
+ifeq (@(COLLECT_MODULES),y)
+	: foreach load_table.lua print_table.lua |> !texluac |> | ../<lua_modules>
+endif

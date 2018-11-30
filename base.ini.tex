@@ -1,0 +1,9 @@
+\catcode`\{=1
+\catcode`\}=2
+
+\directlua{dofile("base.ini.lua")}
+
+\everyjob={\directlua{lua.getbytecode(1)()}}
+\output={\errmessage{Output routine invoked}}
+
+\dump

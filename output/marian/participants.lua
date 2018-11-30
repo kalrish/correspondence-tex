@@ -1,0 +1,1 @@
+return {["david"]={["name"]={["short"]="David",["full"]="David Joaqu\195\173n Shourabi Porcel"}},["marian"]={["name"]={["short"]="Marian",["full"]="Mar\195\173a Marta Gonz\195\161lez Moragriega"}}}
